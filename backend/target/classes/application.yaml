@@ -1,0 +1,78 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: realtime-pipeline-dashboard
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: pipeline-dashboard
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.pipeline.model"
+        spring.json.type.mapping: "tradeEvent:com.pipeline.model.TradeEvent"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pipeline_db}
+    username: ${DB_USERNAME:pipeline}
+    password: ${DB_PASSWORD:pipeline}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      show-sql: false
+      properties:
+        hibernate:
+          jdbc:
+            batch_size: 50
+            order_inserts: true
+            order_updates: true
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  # Pipeline configuration
+pipeline:
+  generator:
+    enabled: true
+    rate-per-second: 1000
+    error-injection-rate: 0.001
+    burst-interval-seconds: 60
+    burst-multiplier: 5
+  aggregation:
+    throughput-window-seconds: 5
+    latency-window-seconds: 60
+    symbol-window-seconds: 300
+  websocket:
+    metrics-push-interval-ms: 1000
+    trades-push-interval-ms: 500
+    health-push-interval-ms: 5000
+  persistence:
+    batch-interval-seconds: 5
+    trade-retention-days: 7
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+logging:
+  level:
+    com.pipeline: INFO
+    org.apache.kafka: WARN

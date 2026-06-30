@@ -1,0 +1,15 @@
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\api\HealthController.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\api\MetricsController.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\api\TradeController.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\generator\PriceSimulator.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\generator\SymbolRegistry.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\generator\TradeGenerator.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\model\MetricsSnapshot.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\model\PipelineHealth.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\model\TradeEvent.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\persistence\entity\MetricsSnapshotEntity.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\persistence\entity\TradeEntity.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\persistence\PersistenceService.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\persistence\repository\MetricsSnapshotRepository.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\persistence\repository\TradeRepository.java
+D:\Projects\realtime-pipeline-dashboard\backend\src\main\java\com\pipeline\PipelineApplication.java
