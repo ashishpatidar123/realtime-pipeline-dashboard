@@ -8,7 +8,7 @@ import com.pipeline.persistence.entity.MetricsSnapshotEntity;
 
 import com.pipeline.persistence.repository.MetricsSnapshotRepository;
 
-import com.pipeline.processing.aggregation.AggregationEngine;
+import com.pipeline.processing.AggregationEngine;
 
 import jakarta.transaction.Transactional;
 
@@ -23,8 +23,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-
+import java.util.ArrayList;
+import java.time.temporal.ChronoUnit;
 
 
 @Service
@@ -50,7 +50,7 @@ public class PersistenceService {
 
     public void bufferTrade(TradeEvent event, long ingestedAt) {
         if (tradeBuffer.size() >= MAX_BUFFER_SIZE) {
-            logger.warn("Trade buffer is full. Dropping trade: {}", trade);
+            logger.warn("Trade buffer is full. Dropping trade: {}", event);
             return;
         }
 
@@ -59,11 +59,11 @@ public class PersistenceService {
                 .symbol(event.getSymbol())
                 .side(event.getSide())
                 .price(event.getPrice())
-                .quantity(event.getQuantity())
+                .quantity((int)event.getQuantity())
                 .venue(event.getVenue())
                 .assetClass(event.getAssetClass())
                 .traderDesk(event.getTraderDesk())
-                .eventTimestamp(event.getEventTimestamp().toString())
+                .eventTimestamp(event.getTimestamp().toString())
                 .ingestedAt(Instant.ofEpochMilli(ingestedAt).toString())
                 .build();
 
@@ -93,7 +93,7 @@ public class PersistenceService {
             MetricsSnapshot snapshot = aggregationEngine.snapshot();
             MetricsSnapshotEntity metricEntity = MetricsSnapshotEntity.builder()
                     .timestamp(snapshot.getTimestamp())
-                    .throughput(snapshot.getThroughput())
+                    .throughput(snapshot.getThroughputPerSecond())
                     .latencyP50Ms(snapshot.getLatencyP50Ms())
                     .latencyP95Ms(snapshot.getLatencyP95Ms())
                     .latencyP99Ms(snapshot.getLatencyP99Ms())

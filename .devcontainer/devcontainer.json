@@ -1,39 +1,19 @@
 {
   "name": "Real-Time Pipeline Dashboard",
-  "image": "mcr.microsoft.com/devcontainers/java:1-21-bullseye",
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "20"
-    },
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "version": "latest",
-      "dockerDashComposeVersion": "v2"
-    }
-  },
+  "dockerComposeFile": [
+    "../docker/docker-compose.yml"
+  ],
+  "service": "backend",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  
   "forwardPorts": [3000, 5173, 8080, 9092, 5432],
   "portsAttributes": {
-    "5173": {
-      "label": "Frontend Dev Server",
-      "onAutoForward": "openBrowserOnce"
-    },
-    "3000": {
-      "label": "Frontend (Docker Compose)",
-      "onAutoForward": "openBrowserOnce"
-    },
-    "8080": {
-      "label": "Backend API",
-      "onAutoForward": "notify"
-    },
-    "9092": {
-      "label": "Kafka",
-      "onAutoForward": "silent"
-    },
-    "5432": {
-      "label": "PostgreSQL",
-      "onAutoForward": "silent"
-    }
+    "5173": { "label": "Frontend Dev Server", "onAutoForward": "openBrowserOnce" },
+    "3000": { "label": "Frontend (Docker Compose)", "onAutoForward": "openBrowserOnce" },
+    "8080": { "label": "Backend API", "onAutoForward": "notify" },
+    "9092": { "label": "Kafka", "onAutoForward": "silent" },
+    "5432": { "label": "PostgreSQL", "onAutoForward": "silent" }
   },
-  "postCreateCommand": "cd frontend && npm install",
   "customizations": {
     "vscode": {
       "extensions": [
